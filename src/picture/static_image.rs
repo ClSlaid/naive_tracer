@@ -1,15 +1,15 @@
-use crate::primitives::Rgb;
+use crate::primitives::{Color, Rgb};
 
 #[derive(Clone, Debug)]
 pub struct StaticImage {
     width: usize,
     height: usize,
-    pixels: Vec<Vec<Rgb>>,
+    pixels: Vec<Vec<Color>>,
 }
 
 impl StaticImage {
     pub fn new(width: usize, height: usize) -> Self {
-        let pixels = vec![vec![Rgb::default(); width]; height];
+        let pixels = vec![vec![Color::default(); width]; height];
         Self {
             width,
             height,
@@ -17,7 +17,7 @@ impl StaticImage {
         }
     }
 
-    pub fn set_pixel(&mut self, pixel: Rgb, x: usize, y: usize) {
+    pub fn set_pixel(&mut self, pixel: Color, x: usize, y: usize) {
         if x >= self.width || y >= self.height {
             return;
         }
@@ -30,7 +30,9 @@ impl StaticImage {
         let mut s = format!("P3\n{} {}\n255\n", self.width, self.height);
         for line in self.pixels.iter() {
             for pixel in line.iter() {
-                s += format!("{} {} {}\n", pixel.r(), pixel.g(), pixel.b()).as_str();
+                let rgb = Rgb::from(*pixel);
+                s += rgb.nums_string().as_str();
+                s.push('\n');
             }
         }
         s

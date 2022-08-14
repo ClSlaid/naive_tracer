@@ -1,5 +1,5 @@
 use weekend::picture::StaticImage;
-use weekend::primitives::Rgb;
+use weekend::primitives::Color;
 
 fn main() {
     let width = 256;
@@ -8,11 +8,12 @@ fn main() {
 
     for j in 0..height {
         for i in 0..width {
-            let (r, g, b) = (i as u16, j as u16, (width / 4) as u16);
-            let color = Rgb::new(r, g, b);
+            let (r, g, b) = ((i as f64) / 256.0, (j as f64) / 256.0, 0.25);
+            let color = Color::new(r, g, b);
             image.set_pixel(color, i, j);
         }
     }
 
     println!("{}", image.ppm());
+    eprintln!("Done!");
 }
