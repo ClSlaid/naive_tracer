@@ -27,7 +27,7 @@ impl StaticImage {
 
 impl StaticImage {
     pub fn ppm(&self) -> String {
-        let mut s = format!("P3\n{} {}\n255\n", self.width, self.height);
+        let mut s = format!("P3\n{} {}\n{}\n", self.width, self.height, u16::MAX);
         for line in self.pixels.iter() {
             for pixel in line.iter() {
                 let rgb = Rgb::from(*pixel);

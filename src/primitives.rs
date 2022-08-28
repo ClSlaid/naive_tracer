@@ -25,13 +25,9 @@ impl Rgb {
         self.2
     }
 }
-impl Default for Rgb {
-    fn default() -> Self {
-        Self(0, 0, 0)
-    }
-}
 
 pub type Vec3 = Num3<f64>;
+pub type Point3 = Vec3;
 
 impl Default for Vec3 {
     fn default() -> Self {
@@ -40,17 +36,17 @@ impl Default for Vec3 {
 }
 
 impl Vec3 {
-    pub fn new(x: f64, y: f64, z: f64) -> Self {
+    pub const fn new(x: f64, y: f64, z: f64) -> Self {
         Self(x, y, z)
     }
 
-    pub fn x(&self) -> f64 {
+    pub const fn x(&self) -> f64 {
         self.0
     }
-    pub fn y(&self) -> f64 {
+    pub const fn y(&self) -> f64 {
         self.1
     }
-    pub fn z(&self) -> f64 {
+    pub const fn z(&self) -> f64 {
         self.2
     }
 
@@ -166,10 +162,11 @@ impl From<Rgb> for Color {
 
 impl From<Color> for Rgb {
     fn from(c: Color) -> Self {
+        let max = u16::MAX as f64;
         Self::new(
-            (c.0 .0 * 256.0) as u16,
-            (c.0 .1 * 256.0) as u16,
-            (c.0 .2 * 256.0) as u16,
+            (c.0 .0 * max) as u16,
+            (c.0 .1 * max) as u16,
+            (c.0 .2 * max) as u16,
         )
     }
 }
